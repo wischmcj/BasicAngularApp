@@ -1,0 +1,15 @@
+<form>
+  <div class="form-group">
+    <label for="item">Item</label>
+    <input type="text"
+           name="item"
+           class="form-control">
+  </div>
+  <button class="btn btn-success">Add Item</button>
+</form>
+
+
+<ul class="list-unstyled">
+  <li class="alert alert-info"
+      *ngFor="let item of things">{{ item.description }}</li>
+</ul>
