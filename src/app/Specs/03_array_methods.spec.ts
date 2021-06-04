@@ -66,9 +66,7 @@ describe('array methods', () => {
             expect(total).toBe(45);
         });
 
-
-        it('use reduce to determine application state', () => {
-
+        it('an example of using reduce to determine application state', () => {
             interface Action {
                 type: string;
             }
@@ -81,11 +79,12 @@ describe('array methods', () => {
                 { type: 'add' },
                 { type: 'add' },
                 { type: 'subtract' }
-
             ];
 
-            const finalValue = actions.reduce((s: number, n: Action) => {
+            // assuming this is the list of things that the user did, and the initial value for our number is 0, what is the current
+            // value?
 
+            const finalValue = actions.reduce((s: number, n: Action) => {
                 switch (n.type) {
                     case 'add': {
                         return s + 1;
@@ -97,24 +96,23 @@ describe('array methods', () => {
                         return s;
                     }
                 }
-
             }, 0)
 
-
+            expect(finalValue).toBe(3);
         });
 
     });
 
     describe('an example', () => {
+
         it('doing something more real with this', () => {
 
             interface Vehicle {
-                vin: string,
-                make: string,
-                model: string,
+                vin: string;
+                make: string;
+                model: string;
                 mileage: number;
             };
-
             const vehicles: Vehicle[] = [
                 { vin: '398398938', make: 'Ford', model: 'Taurus', mileage: 123_100 },
                 { vin: '678967877', make: 'Honda', model: 'Pilot', mileage: 87_000 },
@@ -122,19 +120,35 @@ describe('array methods', () => {
                 { vin: '377329922', make: 'Dodge', model: 'Ram', mileage: 189_888 }
             ];
 
-            const TotalMilageHighMilage: number = vehicles
-                .filter(v => v.mileage > 100_000)
-                .reduce((s: number, n: Vehicle) => s + n.mileage, 0);
+            // what is the total mileage of all the cars with more than 100_000 miles.
+            const totalHighMileage: number = vehicles
+                .filter(isHighMilageVehicle) // -> Vehicles come out of this!
+                .reduce(addMileage, 0);
 
-            expect(TotalMilageHighMilage).toEqual(123_100 + 189_888);
+            expect(totalHighMileage).toBe(123_100 + 189_888);
 
+            // Pure Function - and those are GOOD in programming.
+            function addMileage(current: number, vehicle: { mileage: number }) {
+                return current + vehicle.mileage;
+            }
 
-            const highMilageVehicles: string[] = vehicles
-                .filter(v => v.mileage > 100_000)
-                .map(v => `${v.make} ${v.model}`);
+            function isHighMilageVehicle(v: Vehicle): boolean {
+                return v.mileage >= 100_000;
+            }
 
-            expect(highMilageVehicles).toEqual(['Ford Taurus', 'Dodge Ram']);
+            expect(addMileage(1000, { mileage: 300 })).toBe(1300)
+            // -- a reduce...
 
+            // what are the vehicles with high milage (where high >= 100_000)
+            const highMileageVehicles: string[] = vehicles
+                .filter(isHighMilageVehicle) // 4 -> 2 
+                .map(makeSummaryFromVehicle); // 2 vehicles,=> 2 strings
+
+            function makeSummaryFromVehicle(v: Vehicle): string {
+                return `${v.make} ${v.model}`;
+            }
+
+            expect(highMileageVehicles).toEqual(['Ford Taurus', 'Dodge Ram']);
         });
 
     });
