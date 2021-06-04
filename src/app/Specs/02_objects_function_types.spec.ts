@@ -1,3 +1,5 @@
+
+
 describe('objects', () => {
 
     describe('object literals', () => {
@@ -14,6 +16,23 @@ describe('objects', () => {
                 };
             };
 
+            interface Actor {
+                firstName: string;
+                lastName: string;
+            };
+
+            const actor = {
+                firstName: 'Wally',
+                lastName: 'Shawn',
+                roles: [
+                    "Rex in Toy Story"
+                ]
+            };
+
+            doSomethingWithAnAction(actor);
+            function doSomethingWithAnAction(who: Actor): void {
+                // do something...
+            }
             let joe: Customer = {
                 name: 'Joe Schmidt',
                 creditLimit: 5000,

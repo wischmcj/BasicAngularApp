@@ -128,8 +128,8 @@ describe('array methods', () => {
             expect(totalHighMileage).toBe(123_100 + 189_888);
 
             // Pure Function - and those are GOOD in programming.
-            function addMileage(current: number, vehicle: { mileage: number }) {
-                return current + vehicle.mileage;
+            function addMileage(state: number, vehicle: { mileage: number }) {
+                return state + vehicle.mileage;
             }
 
             function isHighMilageVehicle(v: Vehicle): boolean {
